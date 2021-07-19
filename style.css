@@ -1,0 +1,77 @@
+@import url('https://fonts.googleapis.com/css2?family=Black+Han+Sans&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Do+Hyeon&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Nanum+Gothic&display=swap');
+
+body {  
+    background-color: rgb(255, 252, 245);
+    font-family: 'Nanum Gothic', sans-serif;
+    font-size: small;
+}
+
+h1 {
+    text-align: center;
+    font-size: 50px;
+    /* font-weight: lighter;
+    font-family: 'Black Han Sans', sans-serif; */
+    font-family: 'Do Hyeon', sans-serif;
+}
+
+fieldset{
+    border: 1px solid rgba(255, 192, 56, 0.335);
+}
+ 
+input, select{
+    margin: 5px;
+}
+
+#setting {
+    box-sizing: border-box;
+    margin: auto;
+    padding: 20px;
+    width: 600px;
+    border: 1px solid rgba(255, 192, 56, 0.335);
+    background-color: rgba(255, 213, 146, 0.493);
+    border-radius: 20px;
+    text-align: center;
+}
+
+.field {
+    text-align: left;
+    margin: 10px 0px;
+}
+
+#result {
+    box-sizing: border-box;
+    margin: 50px auto;
+    padding: 0px 30px;
+    padding-bottom: 20px;
+    width: 600px;
+    border: 1px solid rgba(255, 192, 56, 0.335);
+    background-color: rgba(255, 213, 146, 0.493);
+    border-radius: 20px;
+
+}
+
+img {
+    margin: auto;
+    width: 100%;    
+}
+
+.btns {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.btn {
+    margin: 10px 20px 0px 20px;
+    height: 40px;
+    width: 200px;
+    border-radius: 20px;
+    border: 2px solid rgba(255, 192, 56, 0.335);
+    background-color: rgba(255, 213, 146, 0.493);
+} 
+
+#loading-image { 
+    text-align: center;
+}
