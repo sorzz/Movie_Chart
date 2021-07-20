@@ -1,7 +1,5 @@
 <!DOCTYPE html>
 <html lang="ko">
-<!-- 기간을 그냥 연도만 입력받는것으로 함. -->
-<!-- 선택 상자로 고르라고 하면 되겠다. -->
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -18,40 +16,37 @@
     <h1><영화 DB 분류 페이지></h1>
 	<div id = "setting">
         
-		<fieldset class="field" id="set-standard" onclick="lineGraph(this)">
+		<fieldset class="field" id="set-standard" >
 			<legend>기준 설정</legend>
-			<input type="radio" name="standard" id="std_year" value="연도별" checked >연도별
-			<input type="radio" name="standard" id="std_country" value="국가별">국가별
+			<input type="radio" name="standard" id="std_country" value="국가별" checked>국가별
 			<input type="radio" name="standard" id="std_genre" value="장르별">장르별
-			<input type="radio" name="standard" id="std_rank" value="관람 등급별" >관람 등급별
 		</fieldset>
 
         <fieldset class="field" id="set-range">
-			<legend>범주 설정</legend>
+			<legend>범주 설정</legend> 
 			<label for="date-range">기간</label> 
 			<input type="number" name="date-range" id="start" min="1980" max="2020" value="2015"> ~
 			<input type="number" name="date-range" id="end" min="1980" max="2020" value="2016">
-            <!-- <small>(* 최대 10년 차이까지 가능)</small> -->
 			<br>
 			<label for="country"> 국가
 				<select name="set-country" id="set-country" style="width:100px; height: 20px;">
 					<option value="" >전체</option>
-					<option value="22041011" >한국</option>
+					<!-- <option value="22041011" >한국</option>
 					<option value="22042002" >미국</option>
 					<option value="22044010" >영국</option>
 					<option value="22041007" >인도</option>
 					<option value="22041008" >일본</option>
-					<option value="22041009" >중국</option>
+					<option value="22041009" >중국</option> -->
 				</select>
 			</label>
 			<br>
 			<label>장르</label>
 			<input type="checkbox" name="genreAll" id="gen_all" onclick='selectAll(this)'checked >전체
-			<input type="checkbox" name="genre" id="gen_ani" value="애니메이션" onclick='check(this)' checked>애니메이션
+			<!-- <input type="checkbox" name="genre" id="gen_ani" value="애니메이션" onclick='check(this)' checked>애니메이션
 			<input type="checkbox" name="genre" id="gen_horror" value="스릴러" onclick='check(this)' checked>스릴러
 			<input type="checkbox" name="genre" id="gen_comic" value="코미디" onclick='check(this)' checked>코미디
 			<input type="checkbox" name="genre" id="gen_sf" value="SF" onclick='check(this)' checked>SF
-			<input type="checkbox" name="genre" id="gen_drama" value="드라마" onclick='check(this)' checked> 드라마
+			<input type="checkbox" name="genre" id="gen_drama" value="드라마" onclick='check(this)' checked> 드라마 -->
 		</fieldset>
 
         <button class="btn" id="display">그래프 출력</button>
@@ -67,7 +62,7 @@
 			<legend>그래프 설정</legend>
 			<input type="radio" name="chart" id="chart_circle" value="pie" > 원 그래프
 			<input type="radio" name="chart" id="chart_bar"value="bar" checked>막대 그래프
-			<input type="radio" name="chart" id="chart_line"value="line">선 그래프<small>(연도별일때만 가능)</small>
+			<input type="radio" name="chart" id="chart_line"value="line">선 그래프
 		</fieldset>
 <!-- 
 		<div id="loading-image" style="position: relative; z-index:3" >
