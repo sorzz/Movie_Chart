@@ -1,7 +1,6 @@
 // 버튼 누르면 바로 실행되는 부분.
 // 연도별은 기본으로 출력
 
- 
 // 사용자가 선택한 모든 것들을 정리해서 출력 함수를 호출해줄 것
 $("#display").click(function () { 
     // 1. 기준
@@ -16,17 +15,6 @@ $("#display").click(function () {
     if ($("input:checkbox[name=genreAll]").is(":checked") == true)  { // 전체에 체크가 되어있다면
         sel_genre.push('전체');
     }
-    // else {
-    //     const checkboxes = document.querySelectorAll('input[name="genre"]');
-
-    //     checkboxes.forEach((checkbox) => {
-    //         if(checkbox.checked){
-    //             sel_genre.push(checkbox.value); // 이러면 이제 각 이름대로 들어감.
-    //         }
-    //     })
-    // }
-
-    console.log (standard+start_year+end_year+sel_genre);
 
     switch(standard){
         case '장르별':
