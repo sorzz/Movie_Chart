@@ -28,25 +28,21 @@
 			<input type="number" name="date-range" id="start" min="1980" max="2020" value="2015"> ~
 			<input type="number" name="date-range" id="end" min="1980" max="2020" value="2016">
 			<br>
-			<label for="country"> 국가
-				<select name="set-country" id="set-country" style="width:100px; height: 20px;">
-					<option value="" >전체</option>
-					<!-- <option value="22041011" >한국</option>
-					<option value="22042002" >미국</option>
-					<option value="22044010" >영국</option>
-					<option value="22041007" >인도</option>
-					<option value="22041008" >일본</option>
-					<option value="22041009" >중국</option> -->
-				</select>
-			</label>
+			<label>국가</label>
+			<input type="checkbox" name="countryAll" id="coun_all" onclick='selectAll2(this)'checked >전체
+			<input type="checkbox" name="country" id="kor"value="22041011" onclick='check2(this)' checked>한국
+			<input type="checkbox" name="country" id="us"value="22042002" onclick='check2(this)' checked>미국
+			<input type="checkbox" name="country" id="eng"value="22044010" onclick='check2(this)' checked>영국
+			<input type="checkbox" name="country" id="jap"value="22041008" onclick='check2(this)' checked>일본
+			<input type="checkbox" name="country" id="chi"value="22041009" onclick='check2(this)' checked>중국
 			<br>
 			<label>장르</label>
 			<input type="checkbox" name="genreAll" id="gen_all" onclick='selectAll(this)'checked >전체
-			<!-- <input type="checkbox" name="genre" id="gen_ani" value="애니메이션" onclick='check(this)' checked>애니메이션
+			<input type="checkbox" name="genre" id="gen_ani" value="애니메이션" onclick='check(this)' checked>애니메이션
 			<input type="checkbox" name="genre" id="gen_horror" value="스릴러" onclick='check(this)' checked>스릴러
 			<input type="checkbox" name="genre" id="gen_comic" value="코미디" onclick='check(this)' checked>코미디
 			<input type="checkbox" name="genre" id="gen_sf" value="SF" onclick='check(this)' checked>SF
-			<input type="checkbox" name="genre" id="gen_drama" value="드라마" onclick='check(this)' checked> 드라마 -->
+			<input type="checkbox" name="genre" id="gen_drama" value="드라마" onclick='check(this)' checked> 드라마
 		</fieldset>
 
         <button class="btn" id="display">그래프 출력</button>
@@ -73,8 +69,9 @@
 			<canvas id="line-chart" width=400 height="300"></canvas>
 		</div>
 		<div class="btns">
-			<input type="submit" value="이미지로 저장" class="btn" >
-			<input type="reset" value=".xlsx로 저장" class="btn">
+			<button class="btn" id="save_image">이미지로 저장</button>
+			<button class="btn" id="save_xlsx">.xlsx로 저장</button>
+
 		</div>
 	</div>
 
