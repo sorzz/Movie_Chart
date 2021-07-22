@@ -87,10 +87,143 @@ function nation(start_year,end_year,nNm,nCd,sel_genre){
     }  
   }
 }
+let genres;
+function genre(start_year,end_year,nCd,sel_genre) {
+  // standards에 연도 넣기
+  for(let j=start_year; j<=end_year; j++) {
 
-function genre(start_year,end_year,sel_genre) {
+    standards[j-start_year] = j;
+  }
+
+  // 연도별로 가져와놓고 장르 판별해야함.?
+  // result[장르][연도]
+  console.log('genre');
+
+  let total_cnt=[]; // 각 연도별 총 개수
+  let total_sum=0; // 장르에 해당하는 영화 모든 연도 전체 개수
+  genres = ['애니메이션','스릴러','코미디','SF','드라마','전체']; // 나중에 sel_genre으로 그냥 쓰면 될듯.
+
+  // result[장르+전체][연도 수]
+  result = new Array(genres.length);
+ 
+
+  for (var i = 0; i < genres.length; i++) {
+    result[i] = new Array(end_year-start_year+1);
+    for (let j = 0; j <= end_year-start_year; j++) {
+      result[i][j]=0; // 0으로 초기화      
+    }
+  }
+
+  for(let j=start_year; j<=end_year; j++) { // 각 연도 마다 총 개수 세기
+    $.ajax({
+      method: "GET",
+      url: list_url+"&openStartDt="+ j +"&openEndDt="+j,
+      dataType:"json",
+      async: false,
+      success:function(data) {
+        console.log(data);
+
+        total_cnt[j-start_year] = data.movieListResult.totCnt;
+        total_sum += data.movieListResult.totCnt;
+      }
+    })
+  }
+
+  for(let j=start_year; j<=end_year; j++) { // 각 연도 마다
+
+    for(let i=1; i < Math.floor((total_cnt[j-start_year]-1)/10)+2; i++){ // 각 페이지 마다
+      $.ajax({
+        method: "GET",
+        url: list_url+"&openStartDt="+ j +"&openEndDt="+j + "&curPage" + i,
+        dataType:"json",
+        success:function(data) {
+          for(let k=0; k < data.movieListResult.movieList.length; k++) {
+            if(genres.includes(data.movieListResult.movieList[k].repGenreNm)){ // 이거의 장르
+              console.log(data.movieListResult.movieList[k].repGenreNm + genres.indexOf(data.movieListResult.movieList[k].repGenreNm));
+              result[genres.indexOf(data.movieListResult.movieList[k].repGenreNm)][j-start_year] += 1; // 드라마면 드라마 위치에 1 증가
+              result[genres.length-1][j-start_year] += 1; // 전체도 증가 시켜줘야졍
+            }
+            check_cnt++;
+            if(check_cnt == total_sum) {
+              draw2(label_str,'line');
+            }
+          } 
+        }
+      })
+    }
+    
+  }
+
 }
+function draw2(label_str,shape) {
+  // 그래프로 표현 하기.
+  console.log("draw! is first?" + first_time);
+  console.log(result[0][0]); // 애니메이션의 첫번째 해 개수
+  my_datasets=[];
 
+  if(first_time){
+      first_time = false;
+  }
+  else{
+      myLineChart.destroy();
+  }
+
+  for(let i=0; i<genres.length; i++){
+    let color = '#'+Math.round(Math.random()*0xffffff).toString(16);
+    my_datasets[i] = {
+      label: genres[i],
+      data: result[i],
+      borderColor: color,
+      backgroundColor: color,
+      yAxisID: 'y'}
+  }
+  
+  myLineChart = new Chart(document.getElementById('line-chart').getContext('2d'),{
+      type : shape,
+      data :  {
+        labels: standards,
+        datasets: my_datasets
+      },
+      options : {
+        plugins: {
+          responsive: true,
+          legend: {
+            display: true,
+          },
+          scales: {
+            yAxes: [{
+              ticks: {
+                min:0,
+                max:100,
+                stepSize: 20,
+              }
+            }]
+          },
+          maintainAspectRatio : false, // 기본 비율 유지
+          bezierCurve: true,
+          tooltips:{
+            displayColors: false, // 툴팁 바 컬러 표시 여부
+            backgroundColor: '#0a6dff', // 툴팁 배경
+            titleFontColor: '#fff', //여기부터 툴팁 폰트 관련
+            titleAlign: 'center', 
+            bodySpacing: 2,
+            bodyFontColor: '#fff',
+            bodyAlign: 'center',
+            footerFontStyle: 'bold', 
+            footerFontColor: '#fff',
+            footerAlign: 'center',
+            callbaks: {
+              label: function(tooltipitem, data){
+                return data['labels'][tooltipitem['index']] + ": " + data['datasets'][0]['data'][tooltipitem['index']];
+              }
+            }
+          }, 
+        }
+      },
+  });
+
+  
+} 
 
 // 이거 hover했을때 2016 숫자 안뜨고 그냥 원소값만 뜨게 하기!!
 function draw(label_str,shape) {

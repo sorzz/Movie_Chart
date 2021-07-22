@@ -52,10 +52,6 @@ $("#display").click(function () {
     }
 })
 
-$("#save_image").click(function () { 
-    test();
-})
-
 
 
 //이건 이제 국가를 선택했을때 국가별이면 안바뀌게
