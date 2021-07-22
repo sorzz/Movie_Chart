@@ -122,26 +122,41 @@ function draw(label_str,shape) {
           datasets: my_datasets
         },
         options : {
+          plugins: {
+            responsive: true,
+            legend: {
+              display: true,
+            },
+            scales: {
+              yAxes: [{
+                ticks: {
+                  min:0,
+                  max:100,
+                  stepSize: 20,
+                }
+              }]
+            },
             maintainAspectRatio : false, // 기본 비율 유지
-            bezierCurve: true
-        },
-        tooltips:{
-          displayColors: false, // 툴팁 바 컬러 표시 여부
-          backgroundColor: '#0a6dff', // 툴팁 배경
-          titleFontColor: '#fff', //여기부터 툴팁 폰트 관련
-          titleAlign: 'center', 
-          bodySpacing: 2,
-          bodyFontColor: '#fff',
-          bodyAlign: 'center',
-          footerFontStyle: 'bold', 
-          footerFontColor: '#fff',
-          footerAlign: 'center',
-          callbaks: {
-            label: function(tooltipitem, data){
-              return data['labels'][tooltipitem['index']] + ": " + data['datasets'][0]['data'][tooltipitem['index']];
-            }
+            bezierCurve: true,
+            tooltips:{
+              displayColors: false, // 툴팁 바 컬러 표시 여부
+              backgroundColor: '#0a6dff', // 툴팁 배경
+              titleFontColor: '#fff', //여기부터 툴팁 폰트 관련
+              titleAlign: 'center', 
+              bodySpacing: 2,
+              bodyFontColor: '#fff',
+              bodyAlign: 'center',
+              footerFontStyle: 'bold', 
+              footerFontColor: '#fff',
+              footerAlign: 'center',
+              callbaks: {
+                label: function(tooltipitem, data){
+                  return data['labels'][tooltipitem['index']] + ": " + data['datasets'][0]['data'][tooltipitem['index']];
+                }
+              }
+            }, 
           }
-        }, 
+        },
     });
 
     
