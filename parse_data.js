@@ -106,10 +106,12 @@ function draw(label_str,shape) {
     }
 
     for(let i=0; i<=nationCd.length; i++){
+      let color = '#'+Math.round(Math.random()*0xffffff).toString(16);
       my_datasets[i] = {
         label: nationNm[i],
         data: result[i],
-        borderColor: '#'+Math.round(Math.random()*0xffffff).toString(16),
+        borderColor: color,
+        backgroundColor: color,
         yAxisID: 'y'}
     }
     
@@ -124,78 +126,27 @@ function draw(label_str,shape) {
             bezierCurve: true
         },
         tooltips:{
-          enabled:false
-        },
-        hover: {
-          animationDuration: 0
-        },
-        animation: {
-          duration: 1,
-          onComplete: function () {
-            var chartInstance = this.chart,
-              ctx = chartInstance.ctx;
-            ctx.font = Chart.helpers.fontString(Chart.defaults.global.defaultFontSize, Chart.defaults.global.defaultFontStyle, Chart.defaults.global.defaultFontFamily);
-            ctx.fillStyle = 'purple';
-            ctx.textAlign = 'center';
-            ctx.textBaseline = 'bottom';
-  
-            this.data.datasets.forEach(function (dataset, i) {
-              var meta = chartInstance.controller.getDatasetMeta(i);
-              meta.data.forEach(function (bar, index) {
-                var data = dataset.data[index];							
-                ctx.fillText(data, bar._model.x, bar._model.y - 5);
-              });
-            });
+          displayColors: false, // 툴팁 바 컬러 표시 여부
+          backgroundColor: '#0a6dff', // 툴팁 배경
+          titleFontColor: '#fff', //여기부터 툴팁 폰트 관련
+          titleAlign: 'center', 
+          bodySpacing: 2,
+          bodyFontColor: '#fff',
+          bodyAlign: 'center',
+          footerFontStyle: 'bold', 
+          footerFontColor: '#fff',
+          footerAlign: 'center',
+          callbaks: {
+            label: function(tooltipitem, data){
+              return data['labels'][tooltipitem['index']] + ": " + data['datasets'][0]['data'][tooltipitem['index']];
+            }
           }
-        }
+        }, 
     });
 
     
 } 
-  
-function test() {
-  if(first_time){
-    first_time = false;
-  }
-  else{
-      myLineChart.destroy();
-  }
-  nations=['한국', '미국','영국'];
-  standards=[2010,2011,2012];
-  // arr[국가 수][연도 수]
-  var result = new Array(3);
-
-  for (var i = 0; i < 3; i++) {
-    result[i] = new Array(3);
-  }  
-  
-  result[0] = [10,15,18]; //한국 영화 수  
-  result[1] = [12,25,13]; //미국 영화 수  
-  result[2] = [20,17,11]; //영국 영화 수  
-  let my_datasets=[];
-
-  for(let i=0; i<3; i++){
-    my_datasets[i] = {
-      label: nations[i],
-      data: result[i],
-      borderColor: '#'+Math.round(Math.random()*0xffffff).toString(16),
-      yAxisID: 'y'}
-  }
-
-
-  yLineChart = new Chart(document.getElementById('line-chart').getContext('2d'),{
-    type : 'line',
-    data :  {
-      labels: standards,
-      datasets: my_datasets
-    },
-    options : {
-        maintainAspectRatio : false, // 기본 비율 유지
-        bezierCurve: true
-    }
-  });
-}
-
+   
 // 그래프 모양 바뀔 때마다 바꿔주기
 function shape(nothing) {
     if (first_time){
