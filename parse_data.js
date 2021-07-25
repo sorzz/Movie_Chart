@@ -148,6 +148,7 @@ function genre(start_year,end_year,sel_genre) {
 }
 
 function draw(type) {
+  close();
   console.log("draw! is first?" + first_time);
   let my_datasets=[];
 

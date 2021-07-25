@@ -4,6 +4,7 @@
 
 // 나라는 국가명 리스트랑 국가코드 리스트를 같이 넘겨줘야겠네..
 $("#display").click(function () { 
+    showLayer();
     // 1. 기준
     let standard = $("input[name='standard']:checked").val();  
 
@@ -139,4 +140,16 @@ $('#set-standard').click(function () {
     }
 });
 
-
+function wrapWindowByMask() { //화면의 높이와 너비를 구한다. 
+    $('#fade').css({ 'width': $('#result_chart').width(), 'height': $('#result_chart').height()}); 
+} 
+/// 화면의 중앙에 레이어띄움 
+function showLayer() { 
+    wrapWindowByMask(); 
+    $("#light").css("left", "20px"); 
+    $('#fade').show(); $('#light').show(); 
+} 
+    
+function close() { 
+    $('#fade').hide(); $('#light').hide(); 
+}

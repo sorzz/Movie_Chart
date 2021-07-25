@@ -5,9 +5,9 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>API 연습</title>
-    <style>
-       
-    </style>
+     
+ 
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.3.2/chart.min.js"></script>
 	<link rel="stylesheet" href="style.css">
 </head>
@@ -69,14 +69,24 @@
 			<img src="Spinner.gif" alt="Loading..." />
 		</div> -->
 
-		<div id="result_chart" style="position: relative; z-index:2" >
+		<div id="result_chart">
+            <div id="fade" class="black_background"  >
+            <div class="loadingio-spinner-wedges-ynx2h61thk"><div class="ldio-2hgux1lg16z">
+                <div><div><div></div></div><div><div></div></div><div><div></div></div><div><div></div></div></div>
+                </div>
+            </div>   
+            </div>   
 			<canvas id="line-chart" width=400 height="300"></canvas>
 		</div>
 		<div class="btns">
-			<button class="btn" id="save_image">이미지로 저장</button>
+			<button class="btn" id="save_image" onclick="showLayer();">이미지로 저장</button>
 			<button class="btn" id="save_xlsx">.xlsx로 저장</button>
 
 		</div>
+
+        
+           
+
 	</div>
 
     <script src="https://code.jquery.com/jquery-3.6.0.js"
@@ -87,6 +97,28 @@
 	<script src="handle_option.js"></script>
 
     <script>
+
+        var target = document.getElementById("result_chart");
+
+        // var targetTop = target.getBoundingClientRect().top;
+
+        // var abTop = window.pageYOffset + target.getBoundingClientRect().top;
+
+        function wrapWindowByMask() { //화면의 높이와 너비를 구한다. 
+            $('#fade').css({ 'width': $('#result_chart').width(), 'height': $('#result_chart').height()}); 
+        } 
+        /// 화면의 중앙에 레이어띄움 
+        function showLayer() { 
+            wrapWindowByMask(); 
+            $("#light").css("left", "20px"); 
+            $('#fade').show(); $('#light').show(); 
+            setTimeout("clolse()", 2000);
+        } 
+            
+        function clolse() { 
+            $('#fade').hide(); $('#light').hide(); 
+        }
+
         function test() {
             LoadingWithMask('http://127.0.0.1:5500/Wedge.gif');
             setTimeout("closeLoadingWithMask()", 3000);
