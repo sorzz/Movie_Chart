@@ -44,10 +44,10 @@ $("#display").click(function () {
     console.log(start_year,end_year,nNm,nCd,sel_genre);
     switch(standard){
         case '장르별':
-            genre(start_year,end_year,nCd,sel_genre); // 장르는 그냥 코드만 넘겨줘도 됨.
+            genre(start_year,end_year,sel_genre); // 장르는 그냥 코드만 넘겨줘도 됨.
             break;
         case '국가별':
-            nation(start_year,end_year,nNm,nCd,sel_genre);
+            nation(start_year,end_year,nNm,nCd);
             break;
     }
 })
@@ -116,5 +116,27 @@ function check2(box)  {
     })
 }
 
+$('#set-standard').click(function () {
+    var radioVal = $('input[name="standard"]:checked').val();
+    if (radioVal == '국가별') 
+    {
+        $("#sel_genre").find(':input').prop('disabled', true);
+        $('#sel_genre a').click(function(e) {
+            e.preventDefault();
+        })
+
+        $('#sel_country').find(':input').prop('disabled', false);
+        $('#sel_country a').unbind("click");
+    }
+    else {
+        $("#sel_country").find(':input').prop('disabled', true);
+        $('#sel_country a').click(function(e) {
+            e.preventDefault();
+        })
+
+        $('#sel_genre').find(':input').prop('disabled', false);
+        $('#sel_genre a').unbind("click");
+    }
+});
 
 
