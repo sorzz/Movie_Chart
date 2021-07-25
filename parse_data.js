@@ -87,6 +87,8 @@ function nation(start_year,end_year,nNm,nCd,sel_genre){
     }  
   }
 }
+
+
 let genres;
 function genre(start_year,end_year,nCd,sel_genre) {
   // standards에 연도 넣기
@@ -101,6 +103,7 @@ function genre(start_year,end_year,nCd,sel_genre) {
 
   let total_cnt=[]; // 각 연도별 총 개수
   let total_sum=0; // 장르에 해당하는 영화 모든 연도 전체 개수
+  check_cnt=0;
   genres = ['애니메이션','스릴러','코미디','SF','드라마','전체']; // 나중에 sel_genre으로 그냥 쓰면 될듯.
 
   // result[장르+전체][연도 수]
@@ -130,6 +133,7 @@ function genre(start_year,end_year,nCd,sel_genre) {
   }
 
   for(let j=start_year; j<=end_year; j++) { // 각 연도 마다
+    console.log(j+'년 확인');
 
     for(let i=1; i < Math.floor((total_cnt[j-start_year]-1)/10)+2; i++){ // 각 페이지 마다
       $.ajax({
@@ -138,16 +142,19 @@ function genre(start_year,end_year,nCd,sel_genre) {
         dataType:"json",
         success:function(data) {
           for(let k=0; k < data.movieListResult.movieList.length; k++) {
+            
             if(genres.includes(data.movieListResult.movieList[k].repGenreNm)){ // 이거의 장르
               console.log(data.movieListResult.movieList[k].repGenreNm + genres.indexOf(data.movieListResult.movieList[k].repGenreNm));
               result[genres.indexOf(data.movieListResult.movieList[k].repGenreNm)][j-start_year] += 1; // 드라마면 드라마 위치에 1 증가
               result[genres.length-1][j-start_year] += 1; // 전체도 증가 시켜줘야졍
             }
-            check_cnt++;
-            if(check_cnt == total_sum) {
+
+            if(check_cnt++ == total_sum) {
+              console.log(k);
               draw2(label_str,'line');
             }
           } 
+          
         }
       })
     }

@@ -219,11 +219,8 @@ function genre(start_year,end_year,sel_genre,country) {
             url: list_url+"&openStartDt="+ start_year +"&openEndDt="+end_year+"&curPage="+i+"&repNationCd="+country,
             dataType:"json",
             success:function(data) {
-                console.log(data);
-
                 //10개씩 읽어온 정보가 data에 들어있음.
                 for(let j=0; j<data.movieListResult.movieList.length; j++){
-
                     if(standards.includes(data.movieListResult.movieList[j].repGenreNm))
                     { // 해당 장르에 포함되면 개수를 1증가.
                         result[standards.indexOf(data.movieListResult.movieList[j].repGenreNm)] += 1;
@@ -235,12 +232,9 @@ function genre(start_year,end_year,sel_genre,country) {
                         draw(label_str,'bar');
                     }
                 }
-               
             }
         })
-
     }
-
 }
 
 
