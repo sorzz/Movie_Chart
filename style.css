@@ -3,7 +3,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Nanum+Gothic&display=swap');
 
 body {  
-    background-color: rgb(255, 252, 245);
+    background-color: rgb(255, 229, 187);
     font-family: 'Nanum Gothic', sans-serif;
     font-size: small;
 }
@@ -17,7 +17,7 @@ h1 {
 }
 
 fieldset{
-    border: 1px solid rgba(255, 192, 56, 0.335);
+    border: 1px solid rgba(255, 213, 146, 0.493);
 }
  
 input, select{
@@ -30,9 +30,13 @@ input, select{
     padding: 20px;
     width: 600px;
     border: 1px solid rgba(255, 192, 56, 0.335);
-    background-color: rgba(255, 213, 146, 0.493);
+    background-color: rgba(255, 255, 255, 0.781);
     border-radius: 20px;
     text-align: center;
+}
+
+.ddd {
+  background-color: rgba(0, 0, 0, 0.493);
 }
 
 .field {
@@ -47,7 +51,7 @@ input, select{
     padding-bottom: 20px;
     width: 600px;
     border: 1px solid rgba(255, 192, 56, 0.335);
-    background-color: rgba(255, 213, 146, 0.493);
+    background-color: rgba(255, 255, 255, 0.781);
     border-radius: 20px;
 
 }

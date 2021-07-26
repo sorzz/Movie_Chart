@@ -20,15 +20,17 @@
 			<legend>기준 설정</legend>
 			<input type="radio" name="standard" id="std_country" value="국가별" checked>국가별
 			<input type="radio" name="standard" id="std_genre" value="장르별">장르별
+			<input type="radio" name="standard" id="std_type" value="유형별">유형별
 		</fieldset>
 
         <fieldset class="field" id="set-range">
 			<legend>범주 설정</legend> 
-			<label for="date-range">기간</label> 
-			<input type="number" name="date-range" id="start" min="1980" max="2020" value="2010"> ~
-			<input type="number" name="date-range" id="end" min="1980" max="2020" value="2015">
-			<br>
-			<div id='sel_country'>
+			<div>
+				<label for="date-range">기간</label> 
+				<input type="number" name="date-range" id="start" min="1980" max="2020" value="2010"> ~
+				<input type="number" name="date-range" id="end" min="1980" max="2020" value="2015">
+			</div>
+			<div id='sel_country' style="line-height:170%">
 				<label>국가</label>
 				<input type="checkbox" name="countryAll" id="coun_all" onclick='selectAll2(this)' >전체
 				<input type="checkbox" name="country" id="한국"value="22041011" onclick='check2(this)' checked>한국
@@ -37,8 +39,7 @@
 				<input type="checkbox" name="country" id="일본"value="22041008" onclick='check2(this)' >일본
 				<input type="checkbox" name="country" id="중국"value="22041009" onclick='check2(this)' >중국
 			</div>
-			<br>
-			<div id='sel_genre'>
+			<div id='sel_genre' style="line-height:200%">
 				<label>장르</label>
 				<input type="checkbox" name="genreAll" id="gen_all" onclick='selectAll(this)'checked >전체
 				<input type="checkbox" name="genre" id="gen_ani" value="애니메이션" onclick='check(this)' checked>애니메이션
@@ -46,6 +47,13 @@
 				<input type="checkbox" name="genre" id="gen_comic" value="코미디" onclick='check(this)' checked>코미디
 				<input type="checkbox" name="genre" id="gen_sf" value="SF" onclick='check(this)' checked>SF
 				<input type="checkbox" name="genre" id="gen_drama" value="드라마" onclick='check(this)' checked> 드라마
+			</div>
+			<div id='sel_type' style="line-height:170%">
+				<label>유형</label>
+				<input type="checkbox" name="typeAll" id="type_all" onclick='selectAll3(this)'checked >전체
+				<input type="checkbox" name="type" id="장편" value="220101" onclick='check3(this)' checked>장편
+				<input type="checkbox" name="type" id="단편" value="220102" onclick='check3(this)' checked>단편
+				<input type="checkbox" name="type" id="옴니버스" value="220103" onclick='check3(this)' checked>옴니버스
 			</div>
 		</fieldset>
 
@@ -58,16 +66,11 @@
 		</div>
 
 		<fieldset class="field" id="set-chart" onclick="shape(this)">
-            <!-- 일단 무조건 막대그래프로 해보자능 -->
 			<legend>그래프 설정</legend>
 			<input type="radio" name="chart" id="chart_line"value="line" checked>선 그래프
 			<input type="radio" name="chart" id="chart_circle" value="pie" > 원 그래프
 			<input type="radio" name="chart" id="chart_bar"value="bar" >막대 그래프
 		</fieldset>
-<!-- 
-		<div id="loading-image" style="position: relative; z-index:3" >
-			<img src="Spinner.gif" alt="Loading..." />
-		</div> -->
 
 		<div id="result_chart">
             <div id="fade" class="black_background"  >
