@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="ko">
+<!-- 기간을 그냥 연도만 입력받는것으로 함. -->
+<!-- 선택 상자로 고르라고 하면 되겠다. -->
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API 연습</title>
+    <style>
+       
+    </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.3.2/chart.min.js"></script>
+	<link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div id="result">
+		<h2>[그래프 결과]</h2>
+		<div id="loading">
+		</div>
+
+		<fieldset class="field" id="set-chart" onclick="shape(this)">
+            <!-- 일단 무조건 막대그래프로 해보자능 -->
+			<legend>그래프 설정</legend>
+			<input type="radio" name="chart" id="chart_circle" value="pie" > 원 그래프
+			<input type="radio" name="chart" id="chart_bar"value="bar" checked>막대 그래프
+			<input type="radio" name="chart" id="chart_line"value="line">선 그래프<small>(연도별일때만 가능)</small>
+		</fieldset>
+<!-- 
+		<div id="loading-image" style="position: relative; z-index:3" >
+			<img src="Spinner.gif" alt="Loading..." />
+		</div> -->
+
+		<div id="result_chart" style="position: relative; z-index:2" >
+			<canvas id="line-chart" width=400 height="300"></canvas>
+		</div>
+		<div class="btns">
+			<input type="submit" value="이미지로 저장" class="btn" onclick = 'draw("bar")'>
+			<input type="reset" value=".xlsx로 저장" class="btn">
+		</div>
+	</div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.js"
+        integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+
+
+    <script src="parse_data.js"></script>
+	<script src="handle_option.js"></script>
+
+    <script>
+    function deltool() 
+    {
+    }
+        
+    function draw(type) {
+        console.log("draw! is first?" + first_time);
+        let my_datasets = [];
+        let standards = [2010,2011,2012,2013,2014];
+        let label =['한','미','영','전체'];
+
+        // result[장르+전체][연도 수] 
+        result = new Array(label.length);
+        for (var i = 0; i < label.length; i++) {
+            result[i] = new Array(5);
+            for (let j = 0; j <= 4; j++) {
+            result[i][j] = 0; // 0으로 초기화      
+            }
+        }
+
+        result[0] = [500,180,120,100,620]; // 한
+        result[1] = [240,400,460,370,120]; // 미
+        result[2] = [200,270,320,200,120]; // 영
+        result[3] = [940,850,800,670,860]; // 전체
+        
+        // 배열 돌리기
+        let reverse = new Array(5);
+        for (var i = 0; i < 5; i++) {
+            reverse[i] = new Array(4);
+            for (let j = 0; j < 4; j++) {
+                reverse[i][j] = result[j][i]; // 0으로 초기화      
+            }
+        }
+
+
+        if (first_time) {
+            first_time = false;
+        }
+        else {
+            myChart.destroy();
+        }
+
+        // dataset 설정하기. 랜덤 색
+        for (let i = 0; i < label.length; i++) {
+            let color = '#' + Math.round(Math.random() * 0xffffff).toString(16);
+            my_datasets[i] = {
+                label: label[i],
+                data: reverse[i],
+                borderColor: color,
+                borderWidth: '2',
+                backgroundColor: 'white',
+                hoverBackgroundColor: color,
+            }
+        }
+
+        
+        let newtool = false;
+
+        myChart = new Chart(document.getElementById('line-chart').getContext('2d'), {
+            type: 'pie',
+            data: {
+                labels: label,
+                datasets: my_datasets
+            },
+            options: {
+                plugins: {
+                    tooltip: {
+                        callbacks: {
+                        title: function(context) {
+                            return 'dd';
+
+                        },
+                },
+            }
+        }}});
+    }
+// external: function (context) {
+                    //     newtool = true;
+                    //     //clearTimeout(timer);
+                    //     // Tooltip Element
+                    //     var tooltipEl = document.getElementById('chartjs-tooltip');
+
+                    //     // Create element on first render
+                    //     if (!tooltipEl) {
+                    //         tooltipEl = document.createElement('div');
+                    //         tooltipEl.id = 'chartjs-tooltip';
+                    //         tooltipEl.innerHTML = '<table class="ddd"></table>';
+                    //         document.body.appendChild(tooltipEl);
+                    //     }
+
+                    //     // Hide if no tooltip
+                    //     var tooltipModel = context.tooltip;
+                    //     if (tooltipModel.opacity === 0) {
+                    //         tooltipEl.style.opacity = 0;
+                    //         // newtool = false;
+                    //         // var timer = setTimeout(function() {
+                    //         //     if(newtool){
+                    //         //         console.log('newtool is false');
+                    //         //         clearTimeout(timer);
+                    //         //         return;
+                    //         //     }
+                    //         //     document.getElementById('chartjs-tooltip').style.opacity = 0;
+                    //         // }, 3000);
+                    //         return;
+                    //     }
+
+                    //     // Set caret Position
+                    //     tooltipEl.classList.remove('above', 'below', 'no-transform');
+                    //     if (tooltipModel.yAlign) {
+                    //         tooltipEl.classList.add(tooltipModel.yAlign);
+                    //     } 
+                    //     else {
+                    //         tooltipEl.classList.add('no-transform');
+                    //     }
+
+                    //     function getBody(bodyItem) {
+                    //         return bodyItem.lines;
+                    //     }
+
+                    //     // Set Text
+                    //     if (tooltipModel.body) {
+                    //     var bodyLines = tooltipModel.body.map(getBody);
+
+                    //     var innerHtml = '<thead>';
+
+                    //     bodyLines.forEach(function (body, i) {
+                    //         var colors = tooltipModel.labelColors[i];
+                    //         var style = 'background:' + colors.backgroundColor;
+                    //         style += '; border-color:' + colors.borderColor;
+                    //         style += '; border-width: 2px';
+                    //         var span = '<span style="' + style + '"></span>';
+                    //         innerHtml += '<tr><td>' + span + body + '</td></tr>';
+                    //     });
+                    //     innerHtml += '</tbody>';
+
+                    //     var tableRoot = tooltipEl.querySelector('table');
+                    //         tableRoot.innerHTML = innerHtml;
+                    //     }
+
+                    //     var position = context.chart.canvas.getBoundingClientRect();
+                    //     var bodyFont = Chart.helpers.toFont(tooltipModel.options.bodyFont);
+
+                    //     // Display, position, and set styles for font
+                    //     tooltipEl.style.opacity = 1;
+                    //     tooltipEl.style.color = 'white';
+                    //     tooltipEl.style.position = 'absolute';
+                    //     tooltipEl.style.left = position.left + window.pageXOffset + tooltipModel.caretX + 'px';
+                    //     tooltipEl.style.top = position.top + window.pageYOffset + tooltipModel.caretY + 'px';
+                    //     tooltipEl.style.font = bodyFont.string;
+                    //     tooltipEl.style.padding = tooltipModel.padding + '10px ' + tooltipModel.padding + '10px';
+                    //     tooltipEl.style.pointerEvents = 'none';
+                    // }
+                
+    </script>
+
+</body>
+
+</html>

@@ -37,6 +37,9 @@ input, select{
 
 .ddd {
   background-color: rgba(0, 0, 0, 0.493);
+  position: relative;  
+  
+  z-index: 10;
 }
 
 .field {
@@ -86,6 +89,12 @@ img {
     text-align: center;
 } 
    
+#line-chart{
+    z-index: -1;
+}
+
+
+
 .loadingio-spinner-wedges-ynx2h61thk{
     margin-top: 10%;
 }
