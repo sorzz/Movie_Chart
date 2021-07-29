@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>영화 정보 분류</title>
+    <style>
+       
+    </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.3.2/chart.min.js"></script>
+	<link rel="stylesheet" href="my_style.css">
+</head>
+
+<body>
+    <h1><영화 DB 분류 페이지></h1>
+	<div id = "setting">
+		<fieldset class="field" id="set-standard">
+			<legend>기준 설정</legend>
+			<input type="radio" name="standard" id="std_country" value="국가별" checked>국가별
+			<input type="radio" name="standard" id="std_genre" value="장르별">장르별
+			<input type="radio" name="standard" id="std_type" value="유형별">유형별
+		</fieldset>
+
+        <fieldset class="field" id="set-range">
+			<legend>범주 설정</legend> 
+			<div>
+				<label for="date-range">기간</label> 
+				<input type="number" name="date-range" id="start" min="1980" max="2020" value="2010"> ~
+				<input type="number" name="date-range" id="end" min="1980" max="2020" value="2015">
+			</div>
+			<div id='sel_country' style="line-height:170%">
+				<label>국가</label>
+				<input type="checkbox" name="countryAll" id="coun_all" onclick='selectAll2(this)' >전체
+				<input type="checkbox" name="country" id="한국"value="22041011" onclick='check2(this)' checked>한국
+				<input type="checkbox" name="country" id="미국"value="22042002" onclick='check2(this)' checked>미국
+				<input type="checkbox" name="country" id="영국"value="22044010" onclick='check2(this)' checked>영국
+				<input type="checkbox" name="country" id="일본"value="22041008" onclick='check2(this)' >일본
+				<input type="checkbox" name="country" id="중국"value="22041009" onclick='check2(this)' >중국
+			</div>
+			<div id='sel_genre' style="line-height:200%">
+				<label>장르</label>
+				<input type="checkbox" name="genreAll" id="gen_all" onclick='selectAll(this)'checked >전체
+				<input type="checkbox" name="genre" id="gen_ani" value="애니메이션" onclick='check(this)' checked>애니메이션
+				<input type="checkbox" name="genre" id="gen_horror" value="스릴러" onclick='check(this)' checked>스릴러
+				<input type="checkbox" name="genre" id="gen_comic" value="코미디" onclick='check(this)' checked>코미디
+				<input type="checkbox" name="genre" id="gen_sf" value="SF" onclick='check(this)' checked>SF
+				<input type="checkbox" name="genre" id="gen_drama" value="드라마" onclick='check(this)' checked> 드라마
+			</div>
+			<div id='sel_type' style="line-height:170%">
+				<label>유형</label>
+				<input type="checkbox" name="typeAll" id="type_all" onclick='selectAll3(this)'checked >전체
+				<input type="checkbox" name="type" id="장편" value="220101" onclick='check3(this)' checked>장편
+				<input type="checkbox" name="type" id="단편" value="220102" onclick='check3(this)' checked>단편
+				<input type="checkbox" name="type" id="옴니버스" value="220103" onclick='check3(this)' checked>옴니버스
+			</div>
+		</fieldset>
+
+        <button class="btn" id="display">그래프 출력</button>
+	</div>
+
+    <div id="result">
+		<h2>그래프 결과</h2>
+		<div id="loading"></div>
+
+		<fieldset class="field" id="set-chart" onclick="shape(this)">
+			<legend>그래프 설정</legend>
+			<input type="radio" name="chart" id="chart_line"value="line" checked>선 그래프
+			<input type="radio" name="chart" id="chart_circle" value="pie" > 원 그래프
+			<input type="radio" name="chart" id="chart_bar"value="bar" >막대 그래프
+		</fieldset>
+
+		<div id="result_chart">
+            <div id="fade" class="black_background"  >
+            <div class="loadingio-spinner-wedges-ynx2h61thk"><div class="ldio-2hgux1lg16z">
+                <div><div><div></div></div><div><div></div></div><div><div></div></div><div><div></div></div></div>
+                </div>
+            </div>   
+            </div>   
+			<canvas id="line-chart" width=400 height="300"></canvas>
+		</div>
+
+		<div class="btns">
+			<button class="btn" id="save_image">이미지로 저장</button>
+			<button class="btn" id="save_xlsx">.xlsx로 저장</button>
+		</div>
+	</div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.js"
+        integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+
+        <script src="parse_data.js"></script>
+	<script src="handle_option.js"></script>
+
+</body>
+</html>
