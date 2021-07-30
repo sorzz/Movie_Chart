@@ -18,7 +18,19 @@
         
 		<fieldset class="field" id="set-standard">
 			<legend>기준 설정</legend>
-			<input type="radio" name="standard" id="std_country" value="국가별" checked>국가별
+			<div class="form-group">
+				<input id="example2" type="text" class="form-control" value="">
+				<div class="yearpicker-container yearpicker-dropdown">
+					<div class="yearpicker-header">
+						<div class="yearpicker-prev" data-view="yearpicker-prev">‹</div>
+						<div class="yearpicker-current" data-view="yearpicker-current">2017</div>
+						<div class="yearpicker-next" data-view="yearpicker-next">›</div>
+					</div>
+					<div class="yearpicker-body">
+						<ul class="yearpicker-year" data-view="years"><li class="yearpicker-items " data-view="yearpicker-items">2016</li> <li class="yearpicker-items selected" data-view="yearpicker-items">2017</li> <li class="yearpicker-items " data-view="yearpicker-items">2018</li> <li class="yearpicker-items " data-view="yearpicker-items">2019</li> <li class="yearpicker-items " data-view="yearpicker-items">2020</li> <li class="yearpicker-items " data-view="yearpicker-items">2021</li> <li class="yearpicker-items " data-view="yearpicker-items">2022</li> <li class="yearpicker-items " data-view="yearpicker-items">2023</li> <li class="yearpicker-items " data-view="yearpicker-items">2024</li> <li class="yearpicker-items " data-view="yearpicker-items">2025</li> <li class="yearpicker-items " data-view="yearpicker-items">2026</li> <li class="yearpicker-items " data-view="yearpicker-items">2027</li></ul>
+					</div>
+				</div>
+			</div>
 			<input type="radio" name="standard" id="std_genre" value="장르별">장르별
 			<input type="radio" name="standard" id="std_type" value="유형별">유형별
 		</fieldset>

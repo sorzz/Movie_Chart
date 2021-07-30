@@ -12,16 +12,20 @@ $(document).ready(function() {
     })
 })
 
+let standard; // 엑셀로 변환할 때 써야해서 전역변수 처리 해줌.
+let start_year;
+let end_year;
+
 $("#display").click(function () { 
     // 0. 로딩화면 띄우기.
     showLayer(); 
 
     // 1. 기준
-    let standard = $("input[name='standard']:checked").val();  
+    standard = $("input[name='standard']:checked").val();  
 
     // 2. 범주 [시작년도, 끝년도, 국가리스트, 장르리스트, 유형리스트]
-    let start_year =  $("#start").val(); // 시작
-    let end_year = $("#end").val(); // 끝
+    start_year =  $("#start").val(); // 시작
+    end_year = $("#end").val(); // 끝
 
     let nNm = [];
     let nCd = [];
@@ -78,13 +82,13 @@ $("#display").click(function () {
 
     switch(standard){
         case '장르별':
-            genre(start_year,end_year,sel_genre);  
+            genre(sel_genre);  
             break;
         case '국가별':
-            nation(start_year,end_year,nNm,nCd);
+            nation(nNm,nCd);
             break;
         case '유형별':
-            type(start_year,end_year,typeNm,typeCd);
+            type(typeNm,typeCd);
             break;
     }
 })
