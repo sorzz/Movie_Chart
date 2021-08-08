@@ -12,10 +12,10 @@ let first_time = true;
 let nationNm;
 let nationCd;
 
-let myChart;
 
 function nation(nNm, nCd) {
 
+  standards = [];
   let check_cnt = 0;
   let totalcnt;
 
@@ -67,6 +67,7 @@ function nation(nNm, nCd) {
 
 function genre(sel_genre) {
   console.log('genre');
+  standards = [];
 
   let total_cnt = []; // 각 연도별 총 개수
   let total_sum = 0; // 장르에 해당하는 영화 모든 연도 전체 개수
@@ -90,7 +91,7 @@ function genre(sel_genre) {
     }
   }
 
-  // 각 연도 마다 총 개수 세기
+    // 각 연도 마다 총 개수 세기
   for (let j = start_year; j <= end_year; j++) {
     $.ajax({
       method: "GET",
@@ -105,6 +106,8 @@ function genre(sel_genre) {
       }
     })
   }
+
+ 
 
   for (let j = start_year; j <= end_year; j++) { // 각 연도 마다
     for (let i = 1; i < Math.floor((total_cnt[j - start_year] - 1) / 10) + 2; i++) { // 각 페이지 마다
@@ -131,7 +134,7 @@ function genre(sel_genre) {
 }
 
 function type(typeNm,typeCd) {
-  
+  standards = [];
   let check_cnt = 0;
   let totalcnt;
 

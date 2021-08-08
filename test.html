@@ -47,215 +47,110 @@
 
     <script src="parse_data.js"></script>
 	<script src="handle_option.js"></script>
-
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.0.0/dist/chart.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script>
     <script>
-    function deltool() 
-    {
-    }
-
-    function getRandomColor(_isAlpha) {
-        let r = getRand(0, 255),
-        g = getRand(0, 255),
-        b = getRand(0, 255),
-        a = 0.5;
-
-        let rgb = _isAlpha ? 'rgba' : 'rgb';
-        rgb += '(' + r + ',' + g + ',' + b;
-        rgb += _isAlpha ? ',' + a + ')' : ')';
-
-        return rgb;
-    };
-    
-    function getRand(min, max) {
-        if (min >= max) return false;
-        return ~~(Math.random() * (max - min + 1)) + min;
-    };
-
-    function draw(type) {
-        console.log("draw! is first?" + first_time);
-        let my_datasets = [];
-        let standards = [2010,2011,2012,2013,2014];
-        let label =['한','미','영','전체'];
-
-        // result[장르+전체][연도 수] 
-        result = new Array(label.length);
-        for (var i = 0; i < label.length; i++) {
-            result[i] = new Array(5);
-            for (let j = 0; j <= 4; j++) {
-            result[i][j] = 0; // 0으로 초기화      
-            }
-        }
-
-        result[0] = [500,180,120,100,620]; // 한
-        result[1] = [240,400,460,370,120]; // 미
-        result[2] = [200,270,320,200,120]; // 영
-        result[3] = [940,850,800,670,860]; // 전체
-        
-        // 배열 돌리기
-        let reverse = new Array(5);
-        for (var i = 0; i < 5; i++) {
-            reverse[i] = new Array(4);
-            for (let j = 0; j < 4; j++) {
-                reverse[i][j] = result[j][i]; // 0으로 초기화      
-            }
-        }
-
-        if (first_time) {
-            first_time = false;
-        }
-        else {
-            myChart.destroy();
-        }
-
-        let bckColor = [];
-        let hvbckColor = [];
-        for (let i = 0; i < label.length; i++) {
-            let r = getRand(0, 255),
-            g = getRand(0, 255),
-            b = getRand(0, 255),
-            a = 0.1;
-
-            let rgba = 'rgba' + '(' + r + ',' + g + ',' + b + ',' + a + ')';
-            let rgb = 'rgb' + '(' + r + ',' + g + ',' + b + ')';
-
-            bckColor.push(rgba);
-            hvbckColor.push(rgb);
-        }
-
-        // dataset 설정하기. 랜덤 색
-        for (let i = 0; i < label.length; i++) {
-            let color = '#' + Math.round(Math.random() * 0xffffff).toString(16);
-            my_datasets[i] = {
-                label: standards[i],
-                data: reverse[label.length-1-i],
-                title: standards[i],
-                borderColor: hvbckColor,
-                borderWidth: '1',
-                backgroundColor: bckColor,
-                hoverBackgroundColor: hvbckColor,
-            }
-        }
-
-        
-        let newtool = false;
-
+        const mdata = {
+            labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+            datasets: [{
+                label: 'a',
+                data: [65, 59, 80, 81, 26, 55, 40],
+                fill: false,
+                borderColor: 'rgb(75, 192, 192)',
+            }]
+        };
+ 
         myChart = new Chart(document.getElementById('line-chart').getContext('2d'), {
-            type: 'doughnut',
-            data: {
-                labels: ['한','미','영','전'],
-                datasets: my_datasets
-
-
-                // datasets: [{
-                //     label: '2010',
-                //     data: reverse[0], //4개 값
-                //     // //title: standards[i],
-                //     borderColor : ['red','yellow','blue','green'],
-                //     //borderColor: '#' + Math.round(Math.random() * 0xffffff).toString(16),
-                //     borderWidth: '1',
-                //     backgroundColor: ['white','white','white','white'],
-                //     hoverBackgroundColor : ['red','yellow','blue','green'],
-                // },{
-                //     label: '2011',
-                //     data: reverse[1], //4개 값
-                //     // //title: standards[i],
-                //     borderColor : ['red','yellow','blue','green'],
-                //     //borderColor: '#' + Math.round(Math.random() * 0xffffff).toString(16),
-                //     borderWidth: '1',
-                //     backgroundColor: ['white','white','white','white'],
-                //     hoverBackgroundColor : ['red','yellow','blue','green'],
-                // }]
-            },
+            type: 'line',
+            data: mdata,
             options: {
-                plugins: {
-                    tooltip: {
-                        callbacks: {
-                            title: function(context) {
-                                return context[0].dataset.label;
-                            }
-                        }
+                animation: {
+                    duration: 100,
+                    onProgress: function(animation) {
+                        console.log(animation);
+                        
                     },
+                    onComplete: function(animation) {
+                        console.log('onComplete');
+
+                        alert('onAnimationComplete')
+                    }
+                },
+                plugins: {
+                    animation: {
+
+                    },
+                    tooltip: {
+                        enabled: false,
+                        external: function (context) {
+                            // Tooltip Element
+                            var tooltipEl = document.getElementById('chartjs-tooltip');
+                
+                            // Create element on first render
+                            if (!tooltipEl) {
+                                tooltipEl = document.createElement('div');
+                                tooltipEl.id = 'chartjs-tooltip';
+                                tooltipEl.innerHTML = '<table class="ddd"></table>';
+                                document.body.appendChild(tooltipEl);
+                            }
+                
+                            // Hide if no tooltip
+                            var tooltipModel = context.tooltip;
+                            if (tooltipModel.opacity === 0) {
+                                tooltipEl.style.opacity = 1;
+                 
+                                return;
+                            }
+                
+                            // Set caret Position
+                            tooltipEl.classList.remove('above', 'below', 'no-transform');
+                            if (tooltipModel.yAlign) {
+                                tooltipEl.classList.add(tooltipModel.yAlign);
+                            } else {
+                                tooltipEl.classList.add('no-transform');
+                            }
+                
+                            function getBody(bodyItem) {
+                                return bodyItem.lines;
+                            }
+                
+                            // Set Text
+                            if (tooltipModel.body) {
+                                var bodyLines = tooltipModel.body.map(getBody);
+                
+                                var innerHtml = '<thead>';
+                
+                                bodyLines.forEach(function (body, i) {
+                                var colors = tooltipModel.labelColors[i];
+                                var style = 'background:' + colors.backgroundColor;
+                                style += '; border-color:' + colors.borderColor;
+                                style += '; border-width: 2px';
+                                var span = '<span style="' + style + '"></span>';
+                                innerHtml += '<tr><td>' + span + body + '</td></tr>';
+                                });
+                                innerHtml += '</tbody>';
+                
+                                var tableRoot = tooltipEl.querySelector('table');
+                                tableRoot.innerHTML = innerHtml;
+                            }
+                
+                            var position = context.chart.canvas.getBoundingClientRect();
+                            var bodyFont = Chart.helpers.toFont(tooltipModel.options.bodyFont);
+                
+                            // Display, position, and set styles for font
+                            tooltipEl.style.opacity = 1;
+                            tooltipEl.style.color = 'white';
+                            tooltipEl.style.position = 'absolute';
+                            tooltipEl.style.left = position.left + window.pageXOffset + tooltipModel.caretX + 'px';
+                            tooltipEl.style.top = position.top + window.pageYOffset + tooltipModel.caretY + 'px';
+                            tooltipEl.style.font = bodyFont.string;
+                            //tooltipEl.style.padding = tooltipModel.padding + '10px ' + tooltipModel.padding + '10px';
+                            tooltipEl.style.pointerEvents = 'none';
+                        }
+                    }
                 }
             }
         });
-    }
-// external: function (context) {
-                    //     newtool = true;
-                    //     //clearTimeout(timer);
-                    //     // Tooltip Element
-                    //     var tooltipEl = document.getElementById('chartjs-tooltip');
-
-                    //     // Create element on first render
-                    //     if (!tooltipEl) {
-                    //         tooltipEl = document.createElement('div');
-                    //         tooltipEl.id = 'chartjs-tooltip';
-                    //         tooltipEl.innerHTML = '<table class="ddd"></table>';
-                    //         document.body.appendChild(tooltipEl);
-                    //     }
-
-                    //     // Hide if no tooltip
-                    //     var tooltipModel = context.tooltip;
-                    //     if (tooltipModel.opacity === 0) {
-                    //         tooltipEl.style.opacity = 0;
-                    //         // newtool = false;
-                    //         // var timer = setTimeout(function() {
-                    //         //     if(newtool){
-                    //         //         console.log('newtool is false');
-                    //         //         clearTimeout(timer);
-                    //         //         return;
-                    //         //     }
-                    //         //     document.getElementById('chartjs-tooltip').style.opacity = 0;
-                    //         // }, 3000);
-                    //         return;
-                    //     }
-
-                    //     // Set caret Position
-                    //     tooltipEl.classList.remove('above', 'below', 'no-transform');
-                    //     if (tooltipModel.yAlign) {
-                    //         tooltipEl.classList.add(tooltipModel.yAlign);
-                    //     } 
-                    //     else {
-                    //         tooltipEl.classList.add('no-transform');
-                    //     }
-
-                    //     function getBody(bodyItem) {
-                    //         return bodyItem.lines;
-                    //     }
-
-                    //     // Set Text
-                    //     if (tooltipModel.body) {
-                    //     var bodyLines = tooltipModel.body.map(getBody);
-
-                    //     var innerHtml = '<thead>';
-
-                    //     bodyLines.forEach(function (body, i) {
-                    //         var colors = tooltipModel.labelColors[i];
-                    //         var style = 'background:' + colors.backgroundColor;
-                    //         style += '; border-color:' + colors.borderColor;
-                    //         style += '; border-width: 2px';
-                    //         var span = '<span style="' + style + '"></span>';
-                    //         innerHtml += '<tr><td>' + span + body + '</td></tr>';
-                    //     });
-                    //     innerHtml += '</tbody>';
-
-                    //     var tableRoot = tooltipEl.querySelector('table');
-                    //         tableRoot.innerHTML = innerHtml;
-                    //     }
-
-                    //     var position = context.chart.canvas.getBoundingClientRect();
-                    //     var bodyFont = Chart.helpers.toFont(tooltipModel.options.bodyFont);
-
-                    //     // Display, position, and set styles for font
-                    //     tooltipEl.style.opacity = 1;
-                    //     tooltipEl.style.color = 'white';
-                    //     tooltipEl.style.position = 'absolute';
-                    //     tooltipEl.style.left = position.left + window.pageXOffset + tooltipModel.caretX + 'px';
-                    //     tooltipEl.style.top = position.top + window.pageYOffset + tooltipModel.caretY + 'px';
-                    //     tooltipEl.style.font = bodyFont.string;
-                    //     tooltipEl.style.padding = tooltipModel.padding + '10px ' + tooltipModel.padding + '10px';
-                    //     tooltipEl.style.pointerEvents = 'none';
-                    // }
-                
     </script>
 
 </body>

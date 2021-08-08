@@ -1,5 +1,11 @@
 
+ // 색상 리스트
+let color_list = ['#F8CB25', '#E04622', '#AB31F7', '#229DE0', '#0CFF19', '#FAEA99', '#E69077', '#C45FFA', '#4BAFE3', '#93FF91'];
+let myChart;
+
 function draw_line() {
+  console.log(start_year + ' ' + end_year);
+
     close();
     console.log("draw! is first?" + first_time);
     let my_datasets = [];
@@ -13,14 +19,25 @@ function draw_line() {
   
     // dataset 설정하기. 랜덤 색
     for (let i = 0; i < label.length; i++) {
-      let color = '#' + Math.round(Math.random() * 0xffffff).toString(16);
-      my_datasets[i] = {
-        label: label[i],
-        data: result[i],
-        borderColor: color,
-        borderWidth: '2',
-        backgroundColor: 'white',
-        hoverBackgroundColor: color,
+      if(i==label.length-1){ // 전체일땐 색 검정으로 해줄랭.
+        my_datasets[i] = {
+          label: label[i],
+          data: result[i],
+          borderColor: '#333333',
+          borderWidth: '2',
+          backgroundColor: 'white',
+          hoverBackgroundColor: '#333333',
+        }  
+      }
+      else {
+        my_datasets[i] = {
+          label: label[i],
+          data: result[i],
+          borderColor: color_list[i],
+          borderWidth: '2',
+          backgroundColor: 'white',
+          hoverBackgroundColor: color_list[i],
+        }
       }
     }
   
@@ -30,111 +47,17 @@ function draw_line() {
         labels: standards,
         datasets: my_datasets
       },
-      options: {
-        // hover: {
-        //     animationDuration: 0
-        // },
-        // animation: {
-        //     duration: 1,
-        //     onComplete: function () {
-        //         console.log(this);
-        //         // var chartInstance = this.chart;
-        //         var ctx = this.ctx;
-        //         // ctx.font = Chart.helpers.fontString(Chart.defaults.global.defaultFontSize, Chart.defaults.global.defaultFontStyle, Chart.defaults.global.defaultFontFamily);
-        //         ctx.fillStyle = 'purple';
-        //         ctx.textAlign = 'center';
-        //         ctx.textBaseline = 'bottom';
-
-        //         this.data.datasets.forEach(function (dataset, i) {
-        //             console.log(dataset);
-        //             console.log(+i);
-
-        //             console.log(dataset);
-        //             ctx.fillText(dataset.label + ':' + dataset.data[i] , 10+10*i, 20+5*i);
-
-        //             // var meta = this.chart.getDatasetMeta(i);
-        //             // meta.data.forEach(function (bar, index) {
-        //             //     var data = dataset.data[index];							
-        //             //     ctx.fillText(data, bar._model.x, bar._model.y - 5);
-        //             // });
-
-        //         });
-        //     }
-        //   },
+      options: { 
         plugins: {
           tooltip: {
-            enabled: false,
-            external: function (context) {
-              // Tooltip Element
-              var tooltipEl = document.getElementById('chartjs-tooltip');
-  
-              // Create element on first render
-              if (!tooltipEl) {
-                tooltipEl = document.createElement('div');
-                tooltipEl.id = 'chartjs-tooltip';
-                tooltipEl.innerHTML = '<table class="ddd"></table>';
-                document.body.appendChild(tooltipEl);
-              }
-  
-              // Hide if no tooltip
-              var tooltipModel = context.tooltip;
-              if (tooltipModel.opacity === 0) {
-                tooltipEl.style.opacity = 1;
-  
-                setTimeout(function () {
-                  tooltipEl.style.opacity = 0;
-                }, 3000);
+            callbacks: {
+              title: function(context) {
                 return;
               }
-  
-              // Set caret Position
-              tooltipEl.classList.remove('above', 'below', 'no-transform');
-              if (tooltipModel.yAlign) {
-                tooltipEl.classList.add(tooltipModel.yAlign);
-              } else {
-                tooltipEl.classList.add('no-transform');
-              }
-  
-              function getBody(bodyItem) {
-                return bodyItem.lines;
-              }
-  
-              // Set Text
-              if (tooltipModel.body) {
-                var bodyLines = tooltipModel.body.map(getBody);
-  
-                var innerHtml = '<thead>';
-  
-                bodyLines.forEach(function (body, i) {
-                  var colors = tooltipModel.labelColors[i];
-                  var style = 'background:' + colors.backgroundColor;
-                  style += '; border-color:' + colors.borderColor;
-                  style += '; border-width: 2px';
-                  var span = '<span style="' + style + '"></span>';
-                  innerHtml += '<tr><td>' + span + body + '</td></tr>';
-                });
-                innerHtml += '</tbody>';
-  
-                var tableRoot = tooltipEl.querySelector('table');
-                tableRoot.innerHTML = innerHtml;
-              }
-  
-              var position = context.chart.canvas.getBoundingClientRect();
-              var bodyFont = Chart.helpers.toFont(tooltipModel.options.bodyFont);
-  
-              // Display, position, and set styles for font
-              tooltipEl.style.opacity = 1;
-              tooltipEl.style.color = 'white';
-              tooltipEl.style.position = 'absolute';
-              tooltipEl.style.left = position.left + window.pageXOffset + tooltipModel.caretX + 'px';
-              tooltipEl.style.top = position.top + window.pageYOffset + tooltipModel.caretY + 'px';
-              tooltipEl.style.font = bodyFont.string;
-              //tooltipEl.style.padding = tooltipModel.padding + '10px ' + tooltipModel.padding + '10px';
-              tooltipEl.style.pointerEvents = 'none';
-            }
-          }
+            }            
+          } 
         }
-      },
+      }
     });
 }
   
@@ -150,101 +73,37 @@ function draw_bar() {
       myChart.destroy();
     }
   
-    // dataset 설정하기. 랜덤 색
-    for (let i = 0; i < label.length; i++) {
-      let color = '#' + Math.round(Math.random() * 0xffffff).toString(16);
+   // dataset 설정하기. 랜덤 색
+   for (let i = 0; i < label.length; i++) {
+    if(i==label.length-1){ // 전체일땐 색 검정으로 해줄랭.
       my_datasets[i] = {
         label: label[i],
         data: result[i],
-        borderColor: color,
+        borderColor: '#333333',
         borderWidth: '2',
         backgroundColor: 'white',
-        hoverBackgroundColor: color,
+        hoverBackgroundColor: '#333333',
+      }  
+    }
+    else {
+      my_datasets[i] = {
+        label: label[i],
+        data: result[i],
+        borderColor: color_list[i],
+        borderWidth: '2',
+        backgroundColor: 'white',
+        hoverBackgroundColor: color_list[i],
       }
     }
+  }
   
-    myChart = new Chart(document.getElementById('line-chart').getContext('2d'), {
-      type: 'bar',
-      data: {
-        labels: standards,
-        datasets: my_datasets
-      },
-      options: {
-        plugins: {
-          tooltip: {
-            // enabled: false,
-            // external: function (context) {
-            //   // Tooltip Element
-            //   var tooltipEl = document.getElementById('chartjs-tooltip');
-  
-            //   // Create element on first render
-            //   if (!tooltipEl) {
-            //     tooltipEl = document.createElement('div');
-            //     tooltipEl.id = 'chartjs-tooltip';
-            //     tooltipEl.innerHTML = '<table class="ddd"></table>';
-            //     document.body.appendChild(tooltipEl);
-            //   }
-  
-            //   // Hide if no tooltip
-            //   var tooltipModel = context.tooltip;
-            //   if (tooltipModel.opacity === 0) {
-            //     tooltipEl.style.opacity = 1;
-  
-            //     setTimeout(function () {
-            //       tooltipEl.style.opacity = 0;
-            //     }, 3000);
-            //     return;
-            //   }
-  
-            //   // Set caret Position
-            //   tooltipEl.classList.remove('above', 'below', 'no-transform');
-            //   if (tooltipModel.yAlign) {
-            //     tooltipEl.classList.add(tooltipModel.yAlign);
-            //   } else {
-            //     tooltipEl.classList.add('no-transform');
-            //   }
-  
-            //   function getBody(bodyItem) {
-            //     return bodyItem.lines;
-            //   }
-  
-            //   // Set Text
-            //   if (tooltipModel.body) {
-            //     var bodyLines = tooltipModel.body.map(getBody);
-  
-            //     var innerHtml = '<thead>';
-  
-            //     bodyLines.forEach(function (body, i) {
-            //       var colors = tooltipModel.labelColors[i];
-            //       var style = 'background:' + colors.backgroundColor;
-            //       style += '; border-color:' + colors.borderColor;
-            //       style += '; border-width: 2px';
-            //       var span = '<span style="' + style + '"></span>';
-            //       innerHtml += '<tr><td>' + span + body + '</td></tr>';
-            //     });
-            //     innerHtml += '</tbody>';
-  
-            //     var tableRoot = tooltipEl.querySelector('table');
-            //     tableRoot.innerHTML = innerHtml;
-            //   }
-  
-            //   var position = context.chart.canvas.getBoundingClientRect();
-            //   var bodyFont = Chart.helpers.toFont(tooltipModel.options.bodyFont);
-  
-            //   // Display, position, and set styles for font
-            //   tooltipEl.style.opacity = 1;
-            //   tooltipEl.style.color = 'white';
-            //   tooltipEl.style.position = 'absolute';
-            //   tooltipEl.style.left = position.left + window.pageXOffset + tooltipModel.caretX + 'px';
-            //   tooltipEl.style.top = position.top + window.pageYOffset + tooltipModel.caretY + 'px';
-            //   tooltipEl.style.font = bodyFont.string;
-            //   //tooltipEl.style.padding = tooltipModel.padding + '10px ' + tooltipModel.padding + '10px';
-            //   tooltipEl.style.pointerEvents = 'none';
-            // }
-          }
-        }
-      },
-    });
+  myChart = new Chart(document.getElementById('line-chart').getContext('2d'), {
+    type: 'bar',
+    data: {
+      labels: standards,
+      datasets: my_datasets
+    },
+  });
 }
 
 function draw_doughnut() {
@@ -294,15 +153,20 @@ function draw_doughnut() {
         hvbckColor.push(rgb);
     }
 
+
+    let dou_color = color_list;
+    dou_color.length = label.length;
+    dou_color[dou_color.length-1] = 'black';
+
     // dataset 설정하기
     for (let i = 0; i <  end_year - start_year +1 ; i++) {
         my_datasets[i] = {
             label: standards[standards.length-1-i],
             data: reverse[standards.length-1-i],
-            borderColor: hvbckColor,
-            borderWidth: '1',
-            backgroundColor: bckColor,
-            hoverBackgroundColor: hvbckColor,
+            borderColor: dou_color,
+            borderWidth: '2',
+            backgroundColor: 'white',
+            hoverBackgroundColor: dou_color,
             footer: percent[standards.length-1-i]
         }
     }
@@ -325,7 +189,6 @@ function draw_doughnut() {
                             return context.label + ':' + context.formattedValue;
                         },
                         footer: function(context) {
-                            console.log(context);
                             return context[0].dataset.footer[context[0].dataIndex] + '%';
                         }
                     } 

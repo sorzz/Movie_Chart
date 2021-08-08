@@ -1,6 +1,8 @@
 // 버튼 누르면 바로 실행되는 부분.
 // 연도별은 기본으로 출력
 
+var loading = false;
+
 $(document).ready(function() { 
     $("#sel_genre").find(':input').prop('disabled', true);
     $('#sel_genre a').click(function(e) {
@@ -17,15 +19,40 @@ let start_year;
 let end_year;
 
 $("#display").click(function () { 
-    // 0. 로딩화면 띄우기.
+
+    // 그래프 유형 선으로 바꾸기
+    $("input[name='chart']:checked").checked = false; // 그래프 모양
+    document.getElementById('chart_line').checked = true;
+
+
+    // 3. 로딩화면 띄우기.
     showLayer(); 
 
     // 1. 기준
     standard = $("input[name='standard']:checked").val();  
 
     // 2. 범주 [시작년도, 끝년도, 국가리스트, 장르리스트, 유형리스트]
-    start_year =  $("#start").val(); // 시작
-    end_year = $("#end").val(); // 끝
+    //start_year =  $("#start").val(); // 시작
+    start_year = document.getElementById('start').value;
+    end_year = document.getElementById('end').value;
+    //end_year = $("#end").val(); // 끝
+
+    if(end_year==0 || start_year == 0) {
+        alert('기간에 공백이 있습니다.');
+        close();
+        return;
+    }
+    
+    // 이때 end가 더 작으면 경고 띄우고 ~~
+    if (end_year <= start_year) {
+        alert('연도는 과거부터 입력해주세요. (최소 1년 차이)');
+        close();
+        return;
+    }
+
+    
+    
+
 
     let nNm = [];
     let nCd = [];
@@ -224,18 +251,24 @@ $('#set-standard').click(function () {
     }
 });
 
+/// 화면의 중앙에 레이어띄움 
+function showLayer() { 
+    loading = true;
+    wrapWindowByMask(); 
+    var top = $('#fade').height()/2 - 100;
+    var left = $('#fade').width()/2 - 100;
+
+    document.getElementById('light').style.marginTop = top + 'px';
+    document.getElementById('light').style.marginLeft = left + 'px';
+    $('#fade').show();  
+} 
 
 function wrapWindowByMask() { //화면의 높이와 너비를 구한다. 
     $('#fade').css({ 'width': $('#result_chart').width(), 'height': $('#result_chart').height()}); 
 }
 
-/// 화면의 중앙에 레이어띄움 
-function showLayer() { 
-    wrapWindowByMask(); 
-    $("#light").css("left", "20px"); 
-    $('#fade').show(); $('#light').show(); 
-} 
-    
+
 function close() { 
-    $('#fade').hide(); $('#light').hide(); 
+    loading = false;
+    $('#fade').hide(); 
 }

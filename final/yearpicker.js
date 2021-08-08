@@ -1,13 +1,12 @@
 $(document).ready(function () {
-
     $(".yearpicker").yearpicker({
         startYear: new Date().getFullYear() - 20,
         endYear: new Date().getFullYear(),
         onChange: function (value) {
-            document.getElementById('a').value = value;
+            // alert(document.getElementById('a').value);
         }
     }); 
-});
+}); 
 
 
 const version = "1.1.0";
@@ -132,12 +131,12 @@ const handlers = {
         const view = $target.data("view");
         switch (view) {
             case "yearpicker-prev":
-                var year = viewYear - 12;
+                var year = viewYear - 10; // 12->10
                 this.viewYear = year;
                 this.renderYear();
                 break;
             case "yearpicker-next":
-                var year = viewYear + 12;
+                var year = viewYear + 10;
                 this.viewYear = year;
                 this.renderYear();
                 break;
@@ -186,7 +185,7 @@ const render = {
             now = new Date(),
             thisYear = now.getFullYear(),
             start = -5,
-            end = 6,
+            end = 4, // 6->4
             items = [];
 
         let prevDisabled = false;
@@ -277,7 +276,7 @@ const Yearpicker = (function () {
             $this.initialValue = defaultYear;
             $this.oldValue = defaultYear;
 
-            const currentYear = new Date().getFullYear();
+            const currentYear = new Date().getFullYear(); // 현재 기준 연도 구한거.
             // set the defaultyear
             year = year || defaultYear || null;
 
@@ -298,9 +297,8 @@ const Yearpicker = (function () {
             }
 
             $this.year = year;
-            $this.viewYear = year || currentYear;
-            $this.initialYear = year || currentYear;
-
+            $this.viewYear = year || currentYear ;
+            $this.initialYear = year || currentYear ;
             $this.bind();
 
             $this.yearsPrev = $template.find(".yearpicker-prev");
@@ -329,7 +327,8 @@ const Yearpicker = (function () {
             }
             if ($this.isInput) {
                 $element.on(event_focus, $.proxy($this.showView, $this));
-            } else {
+            } 
+            else {
                 $element.on(event_click, $.proxy($this.showView, $this));
             }
         },
@@ -347,7 +346,8 @@ const Yearpicker = (function () {
                 value = this.year;
             const previousValue = $this.isInput ? $element.val() : $element.text();
 
-            if ($this.isInput) {
+            if ($this.isInput) { // 값을 띄우는 부분
+                // $element.val(2121);
                 $element.val(value);
             } else {
                 $element.html(value);

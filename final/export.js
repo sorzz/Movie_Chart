@@ -60,23 +60,13 @@ function s2ab(s) {
 }
 
 $("#save_image").click( function() {
-    console.log('dd'); 
-    html2canvas(document.querySelector("#line-chart")).then(canvas => {
-        var myImage = canvas.toDataURL();
-		downloadURI(myImage, "image.png") 
-    });
-})
- 
 
-//이미지(png)로 다운로드
-function PrintDiv(div){
-    console.log(div)
-	div = div[0]
-	html2canvas(div).then(function(canvas){
-		var myImage = canvas.toDataURL();
-		downloadURI(myImage, "image.png") 
-	});
-}
+    html2canvas(document.querySelector("#result_chart")).then(canvas => {
+        var myImage = canvas.toDataURL();
+		downloadURI(myImage, start_year+'_'+end_year+'_'+standard+'+'+'.png'); 
+    });
+
+}) 
 
 function downloadURI(uri, name){
 	var link = document.createElement("a")
